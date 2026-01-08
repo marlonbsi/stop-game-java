@@ -1,3 +1,16 @@
+# Eclipse Core
+.project
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Other common Eclipse-related files/folders to ignore
+.settings/
+bin/
+target/
+*.iml
+.idea/
+
 # Compiled class file
 *.class
 
