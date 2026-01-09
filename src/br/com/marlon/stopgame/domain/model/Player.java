@@ -8,27 +8,26 @@ public class Player {
 	private String name;
 	private int totalScore;
 	
-	public Player(String name) {
-		super();
-		this.id = UUID.randomUUID();
+	public Player(UUID id, String name) {
+		this.id = id;
 		this.name = name;
 		this.totalScore = 0;
 	}
 	
+	//Getters
 	public UUID getId() {
 		return id;
 	}
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public int getTotalScore() {
 		return totalScore;
 	}
-	public void setTotalScore(int totalScore) {
-		this.totalScore = totalScore;
+	
+	//Behavior
+	public void updateScore(int score) {
+		this.totalScore += score;
 	}
 
 	@Override

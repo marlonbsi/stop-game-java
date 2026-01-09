@@ -1,6 +1,8 @@
 package br.com.marlon.stopgame.domain.model;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class Round {
@@ -8,34 +10,47 @@ public class Round {
 	private UUID id;
 	private char letter;
 	private RoundStatus status;
-	private Map<Player, AnswerSheet> answers;
+	private List<AnswerSheet> answerSheets = new ArrayList<>();
 	
-	//Getters and setters:
+	// Getters
 	public UUID getId() {
 		return id;
 	}
 	public char getLetter() {
 		return letter;
 	}
-	public void setLetter(char letter) {
-		this.letter = letter;
-	}
 	public RoundStatus getStatus() {
 		return status;
 	}
-	public void setStatus(RoundStatus status) {
-		this.status = status;
+	public List<AnswerSheet> getAnswerSheets() {
+		return Collections.unmodifiableList(this.answerSheets);
 	}
-	public Map<Player, AnswerSheet> getAnswers() {
-		return answers;
+	
+	// Behavior
+	public void submitAnswer(Player player, Category category, String value) {
+		if(status != RoundStatus.RUNNING) {
+			throw new IllegalArgumentException("Round is closed");
+		}
+		
+		AnswerSheet sheet = getOrCreateSheet(player);
+		sheet.submitAnswer(category, value);
 	}
-	public void setAnswers(Map<Player, AnswerSheet> answers) {
-		this.answers = answers;
+	
+	private AnswerSheet getOrCreateSheet(Player player) {
+		return answerSheets.stream()
+				.filter(s -> s.getPlayer().equals(player))
+				.findFirst()
+				.orElseGet(() -> {
+					AnswerSheet sheet = new AnswerSheet(player);
+					answerSheets.add(sheet);
+					return sheet;
+				});
 	}
+
 	
 	@Override
 	public String toString() {
-		return "Round [id=" + id + ", letter=" + letter + ", status=" + status + ", answers=" + answers + "]";
+		return "Round [id=" + id + ", letter=" + letter + ", status=" + status + ", answers=" + answerSheets + "]";
 	}
 
 }

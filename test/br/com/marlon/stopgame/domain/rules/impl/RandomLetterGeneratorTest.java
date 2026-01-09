@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 class RandomLetterGeneratorTest {
 
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void shouldReturnAnUpperCaseChar() {
+		RandomLetterGenerator generator = new RandomLetterGenerator();
+		assertTrue(Character.isUpperCase(generator.generate()));
 	}
 
 }

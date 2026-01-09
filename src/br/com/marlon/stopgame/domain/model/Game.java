@@ -11,33 +11,42 @@ public class Game {
 	private List<Round> rounds;
 	private GameStatus gameStatus;
 	
-	//Getters and setters
+	public Game(UUID id, List<Player> players) {
+		if(id == null) {
+			throw new IllegalArgumentException("Game id cannot be null");
+        }
+        if (players == null || players.isEmpty()) {
+            throw new IllegalArgumentException("Game must have players");
+        }
+        
+		this.id = id;
+		this.players = players;
+		this.gameStatus = GameStatus.CREATED;
+	}
+	
+	//Getters
 	public UUID getId() {
 		return id;
 	}
 	public List<Player> getPlayers() {
 		return players;
 	}
-	public void setPlayers(List<Player> players) {
-		this.players = players;
-	}
 	public List<Category> getCategories() {
 		return categories;
-	}
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
 	}
 	public List<Round> getRounds() {
 		return rounds;
 	}
-	public void setRounds(List<Round> rounds) {
-		this.rounds = rounds;
-	}
 	public GameStatus getGameStatus() {
 		return gameStatus;
 	}
-	public void setGameStatus(GameStatus gameStatus) {
-		this.gameStatus = gameStatus;
+	
+	//Behavior
+	public void markAsInProgress() {
+		this.gameStatus = GameStatus.IN_PROGRESS;
+	}
+	public void markAsFinished() {
+		this.gameStatus = GameStatus.FINISHED;
 	}
 	
 	@Override
