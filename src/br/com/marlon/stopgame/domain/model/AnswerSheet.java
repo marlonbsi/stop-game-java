@@ -1,7 +1,8 @@
 package br.com.marlon.stopgame.domain.model;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AnswerSheet {
@@ -9,24 +10,41 @@ public class AnswerSheet {
 	private Player player;
 	private Map<Category, Answer> answers;
 	
-	public AnswerSheet(Player player) {
+	//Constructor
+	public AnswerSheet(Player player, List<Category> categories) {
+		if(player == null) {
+			throw new IllegalArgumentException("Player cannot be null");
+		}
+		
 		this.player = player;
+		this.answers = new HashMap<>();
+		
+		for(Category category: categories) {
+			this.answers.put(category, Answer.empty(category));
+		}
 	}
 
 	// Getters
 	public Player getPlayer() {
 		return player;
 	}
-	public Collection<Answer> getAnswer() {
-		return Collections.unmodifiableCollection(answers.values());
+	public Map<Category, Answer> getAnswer() {
+		return Collections.unmodifiableMap(answers);
 	}
 	
 	// Behavior
 	public void submitAnswer(Category category, String value) {
-		if(answers.containsKey(category)) {
-			throw new IllegalArgumentException("Categpry already answered");
+		if(category == null) {
+			throw new IllegalArgumentException("Category cannot be null");
 		}
-		answers.put(category, new Answer(category, value));
+		
+		Answer answer = answers.get(category);
+		
+		if(answer == null) {
+			throw new IllegalArgumentException("Invalid category");
+		}
+		
+		answer.fill(value);
 	}
 	
 	@Override

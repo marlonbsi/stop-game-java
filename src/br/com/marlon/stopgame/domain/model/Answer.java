@@ -3,11 +3,12 @@ package br.com.marlon.stopgame.domain.model;
 public class Answer {
 	
 	private final Category category;
-	private final String value;
+	private String value;
 	private AnswerStatus status;
 	private int score;
 	
-	public Answer(Category category, String value) {
+	//Constructor
+	public Answer(Category category, String value, AnswerStatus status) {
 		if(category == null) {
 			throw new IllegalArgumentException("Category cannot be null");
 		}
@@ -17,7 +18,10 @@ public class Answer {
 		
 		this.category = category;
 		this.value = value;
-		this.status = AnswerStatus.PENDING;
+		if(status != null)
+			this.status = status;
+		else
+			this.status = AnswerStatus.PENDING;
 		this.score = 0;
 	}
 	
@@ -36,12 +40,33 @@ public class Answer {
 	}
 	
 	//Behavior
+	public void fill(String value) {
+		if(this.status != AnswerStatus.EMPTY) {
+			throw new IllegalStateException("Answer already filled");
+		}
+		this.value = value;
+		this.status = AnswerStatus.PENDING;
+	}
+
+	public static Answer empty(Category category) {
+		if(category == null) {
+			throw new IllegalArgumentException("Category cannot be null");
+		}
+		return new Answer(category, "", AnswerStatus.EMPTY);
+	}
+	
+	public static Answer filled(Category category, String value) {
+		return new Answer(category, value, AnswerStatus.PENDING);
+	}
+	
 	public void markAsValid() {
 		this.status = AnswerStatus.VALID;
 	}
+	
 	public void markAsInvalid() {
 		this.status = AnswerStatus.INVALID;
 	}
+	
 	public void applyScore(int score) {
 		this.score = score;
 	}

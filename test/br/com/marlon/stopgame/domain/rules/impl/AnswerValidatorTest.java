@@ -10,26 +10,28 @@ import br.com.marlon.stopgame.domain.rules.AnswerValidator;
 
 class AnswerValidatorTest {
 
+	AnswerValidator validator = new SimpleAnswerValidator();
 	
     @Test
     void shouldAcceptAnswerStartingWithLetter() {
-        AnswerValidator validator = new SimpleAnswerValidator();
-
         assertTrue(AnswerStatus.VALID == validator.validate('C', "cap"));
     }
     
     @Test
     void shouldRejectAnswerWithWrongLetter() {
-        AnswerValidator validator = new SimpleAnswerValidator();
-
         assertFalse(AnswerStatus.VALID == validator.validate('A', "Pen"));
     }
     
     @Test
     void shouldReturnInvalidAnswerWithWrongLetter() {
-    	AnswerValidator validator = new SimpleAnswerValidator();
-    	
     	assertTrue(AnswerStatus.INVALID == validator.validate('D', "keyboard"));
+    }
+    
+    @Test
+    void shouldReturnEmptyWithEmptyAnswer() {
+    	String emptyString = null;
+    	assertTrue(AnswerStatus.EMPTY == validator.validate('F', emptyString));
+    	
     }
     
 }

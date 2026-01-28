@@ -54,5 +54,7 @@ public class Game {
 		return "Game [id=" + id + ", players=" + players + ", categories=" + categories + ", rounds=" + rounds
 				+ ", gameStatus=" + gameStatus + "]";
 	}
+	
+	//Pending: Add categories, Add rounds.
 
 }

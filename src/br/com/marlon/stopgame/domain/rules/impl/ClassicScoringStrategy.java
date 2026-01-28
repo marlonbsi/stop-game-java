@@ -14,11 +14,10 @@ public class ClassicScoringStrategy implements ScoringStrategy{
 			return 0;
 		}
 		
-		long duplicates = sameCategoryAnswers.stream()
-				.filter(a -> a.getValue().equalsIgnoreCase(answer.getValue()))
-				.count();
+		boolean duplicated = sameCategoryAnswers.stream()
+				.anyMatch(a -> a != answer && a.getValue().equalsIgnoreCase(answer.getValue()));
 		
-		return duplicates > 0 ? 5 : 10;
+		return duplicated ? 5 : 10;
 	}
 
 }
